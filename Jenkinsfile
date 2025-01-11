@@ -36,10 +36,10 @@ pipeline{
             steps{
                 script {
                 docker build -t ${DOCKER_IMAGE} .
-                def dockerImage = docker.image("${DOCKER_IMAGE}")
-                docker.withRegistry('https://index.docker.io/v1/', "Docker-login") {
-                dockerImage.push()
-             }
+                withCredentials([usernamePassword(credentialsId: 'Docker-login', passwordVariable: 'pwd', usernameVariable: 'user')]) {
+                    docker login -u ${user} -p ${pwd}
+                    docker push ${DOCKER_IMAGE}
+            }
             
             }
         }
