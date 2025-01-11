@@ -28,6 +28,11 @@ pipeline{
             }
         }
         stage('Image Build and push to Dockerhub'){
+             environment {
+                DOCKER_IMAGE = "pratikkambl3/spring-app:${BUILD_NUMBER}"
+                // DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
+                REGISTRY_CREDENTIALS = credentials('Docker-login')
+            }     
             steps{
                 script {
                 cd spring-boot-app && docker build -t ${DOCKER_IMAGE} .
@@ -50,8 +55,8 @@ pipeline{
                     git config user.email "pratikkamble122@gmail.com"
                     git config user.name "Pratik Kamble"
                     BUILD_NUMBER=${BUILD_NUMBER}
-                    sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" spring-boot-app/Spring-deployment.yml
-                    git add spring-boot-app/Spring-deployment.yml
+                    sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" spring-boot-app-manifests/deployment.yml
+                    git add spring-boot-app-manifests/deployment.yml
                     git commit -m "Update deployment image to version ${BUILD_NUMBER}"
                     git push https://${Github-Token}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:master
                 '''
