@@ -37,8 +37,8 @@ pipeline{
                 script {
                 docker build -t ${DOCKER_IMAGE} .
                 withCredentials([usernamePassword(credentialsId: 'Docker-login', passwordVariable: 'pwd', usernameVariable: 'user')]) {
-                    docker login -u ${user} -p ${pwd}
-                    docker push ${DOCKER_IMAGE}
+                   sh 'docker login -u ${user} -p ${pwd}'
+                   sh 'docker push ${DOCKER_IMAGE}'
             }
             
             }
