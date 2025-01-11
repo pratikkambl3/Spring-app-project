@@ -1,0 +1,24 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-boot-web
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+  matchLabels:
+    selector:
+      app: spring-boot-app
+  template:
+    metadata:
+      name: spring-boot-app
+      label:
+        app: pratikkambl3/spring-boot-app
+    spec:
+      containers:
+        - name: spring-boot-app-container
+          image: pratikkambl3/spring-boot-app
+      ports:
+        - containerPort: 8080
+
