@@ -38,18 +38,18 @@ pipeline{
                 docker build -t ${DOCKER_IMAGE} .
                 withCredentials([usernamePassword(credentialsId: 'Docker-login', passwordVariable: 'pwd', usernameVariable: 'user')]) {
                    sh 'docker login -u ${user} -p ${pwd}'
-                   sh 'docker push ${DOCKER_IMAGE}'
-            }
-            
-            }
+                   sh 'docker push ${DOCKER_IMAGE}'}
+                }
+            } 
         }
         stage('Update Deployment file'){
             steps{
                 environment {
             GIT_REPO_NAME = "Spring-app-project"
             GIT_USER_NAME = "pratikkambl3"
-        }
-        steps {
+            }
+            }
+            steps {
             withCredentials([string(credentialsId: 'Github-Token', variable: 'Github-Token')]) {
                 sh '''
                     git config user.email "pratikkamble122@gmail.com"
@@ -63,8 +63,8 @@ pipeline{
             }
             }
         }
-
-
+    
     }
 }
+
 
