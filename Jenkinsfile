@@ -43,12 +43,12 @@ pipeline{
             } 
         }
         stage('Update Deployment file'){
-            steps{
+            
                 environment {
             GIT_REPO_NAME = "Spring-app-project"
             GIT_USER_NAME = "pratikkambl3"
             }
-            }
+           
             steps {
             withCredentials([string(credentialsId: 'Github-Token', variable: 'Github-Token')]) {
                 sh '''
